@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEE Advanced Math Mock Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .main-container {
+            display: flex;
+            width: 80%;
+            height: 90vh;
+            background: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .sidebar {
+            width: 20%;
+            background: #343a40;
+            color: white;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sidebar h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .question-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .question-nav button {
+            background: #ffc107;
+            border: none;
+            padding: 8px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .question-nav button:hover {
+            background: #e0a800;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .question {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .options label {
+            display: block;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        button.submit-btn {
+            background: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+            display: block;
+            margin: 20px auto;
+        }
+
+        button.submit-btn:hover {
+            background: #0056b3;
+        }
+
+        #result {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="sidebar">
+            <h2>Question Navigation</h2>
+            <div class="question-nav">
+                <button onclick="goToQuestion(0)">1</button>
+                <button onclick="goToQuestion(1)">2</button>
+                <button onclick="goToQuestion(2)">3</button>
+                <button onclick="goToQuestion(3)">4</button>
+                <button onclick="goToQuestion(4)">5</button>
+            </div>
+        </div>
+        <div class="content">
+            <h1>JEE Advanced Math Mock Test</h1>
+            <div id="quiz">
+                <div class="question"><b>Q1: ∫ e^x dx = ?</b></div>
+                <div class="options">
+                    <label><input type='radio' name='q0' value='e^x + C'> e^x + C</label>
+                    <label><input type='radio' name='q0' value='xe^x + C'> xe^x + C</label>
+                    <label><input type='radio' name='q0' value='e^x - C'> e^x - C</label>
+                    <label><input type='radio' name='q0' value='x^2 e^x'> x^2 e^x</label>
+                </div>
+            </div>
+            <button class="submit-btn" onclick="submitQuiz()">Submit Test</button>
+            <p id="result"></p>
+        </div>
+    </div>
+
+    <script>
+        function submitQuiz() {
+            let score = 0;
+            const answers = ["e^x + C", "2x cos(x^2)", "1", "ln|x| + C", "3x^2 - 6x"];
+            answers.forEach((answer, index) => {
+                let selected = document.querySelector(`input[name='q${index}']:checked`);
+                if (selected && selected.value === answer) {
+                    score++;
+                }
+            });
+            document.getElementById("result").innerText = `Your Score: ${score} / 5`;
+        }
+
+        function goToQuestion(qIndex) {
+            const questions = [
+                "<b>Q1: ∫ e^x dx = ?</b>",
+                "<b>Q2: Find the derivative of sin(x^2) ?</b>",
+                "<b>Q3: Limit x → 0 of (sinx/x) ?</b>",
+                "<b>Q4: What is the integral of 1/x dx ?</b>",
+                "<b>Q5: If f(x) = x^3 - 3x^2 + 5, find f'(x) ?</b>"
+            ];
+            const options = [
+                ["e^x + C", "xe^x + C", "e^x - C", "x^2 e^x"],
+                ["2x cos(x^2)", "cos(x^2)", "sin(2x)", "x cos(x)"],
+                ["1", "0", "Infinity", "Does not exist"],
+                ["ln|x| + C", "1/x + C", "x ln x", "None of these"],
+                ["3x^2 - 6x", "x^2 - 3x", "6x - 3", "x^2 + 2x"]
+            ];
+            let questionHTML = `<div class="question">${questions[qIndex]}</div>`;
+            questionHTML += '<div class="options">';
+            options[qIndex].forEach(opt => {
+                questionHTML += `<label><input type='radio' name='q${qIndex}' value='${opt}'> ${opt}</label>`;
+            });
+            questionHTML += '</div>';
+            document.getElementById("quiz").innerHTML = questionHTML;
+        }
+    </script>
+</body>
+
+</html>
