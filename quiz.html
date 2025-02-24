@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Quiz App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            width: 60%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .header {
+            background-color: #002147;
+            color: white;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .question-box {
+            font-size: 18px;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f4f4f4;
+            border-radius: 5px;
+        }
+
+        input {
+            padding: 8px;
+            font-size: 16px;
+            text-align: center;
+            width: 50%;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100px;
+        }
+
+        .submit-btn {
+            background-color: #28a745;
+        }
+
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+
+        .restart-btn {
+            background-color: #dc3545;
+            display: none;
+        }
+
+        .restart-btn:hover {
+            background-color: #c82333;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">Math Quiz</div>
+        <div class="question-box" id="question"></div>
+        <input type="number" id="answer" placeholder="Your answer">
+        <button class="submit-btn" onclick="checkAnswer()">Submit</button>
+        <p id="result"></p>
+        <p>Score: <span id="score">0</span></p>
+        <button class="restart-btn" id="restart" onclick="restartQuiz()">Restart</button>
+        <div class="footer">NTA Mock Test Style | Math Quiz</div>
+    </div>
+
+    <script>
+        const questions = [
+            { question: "5 + 3 = ?", answer: 8 },
+            { question: "10 - 4 = ?", answer: 6 },
+            { question: "6 × 2 = ?", answer: 12 },
+            { question: "16 ÷ 4 = ?", answer: 4 }
+        ];
+        let currentQuestionIndex = 0;
+        let score = localStorage.getItem("quizScore") || 0;
+        document.getElementById("score").innerText = score;
+
+        function loadQuestion() {
+            if (currentQuestionIndex < questions.length) {
+                document.getElementById("question").innerText = questions[currentQuestionIndex].question;
+            } else {
+                document.getElementById("question").innerText = "Quiz Completed!";
+                document.getElementById("answer").style.display = "none";
+                document.querySelector(".submit-btn").style.display = "none";
+                document.getElementById("restart").style.display = "inline-block";
+            }
+        }
+
+        function checkAnswer() {
+            let userAnswer = document.getElementById("answer").value;
+            if (userAnswer == questions[currentQuestionIndex].answer) {
+                document.getElementById("result").innerText = "Correct!";
+                score++;
+            } else {
+                document.getElementById("result").innerText = "Wrong!";
+            }
+            localStorage.setItem("quizScore", score);
+            document.getElementById("score").innerText = score;
+            document.getElementById("answer").value = "";
+            currentQuestionIndex++;
+            loadQuestion();
+        }
+
+        function restartQuiz() {
+            score = 0;
+            localStorage.setItem("quizScore", score);
+            document.getElementById("score").innerText = score;
+            currentQuestionIndex = 0;
+            document.getElementById("answer").style.display = "inline-block";
+            document.querySelector(".submit-btn").style.display = "inline-block";
+            document.getElementById("restart").style.display = "none";
+            document.getElementById("result").innerText = "";
+            loadQuestion();
+        }
+
+        loadQuestion();
+    </script>
+</body>
+
+</html>
